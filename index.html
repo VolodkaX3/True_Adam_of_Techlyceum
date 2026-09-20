@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True Adam of Techlyceum</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SVG-фильтры для эффекта "скомканной" бумаги (не удалять) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <filter id="crumple-soft">
+            <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="crumple-hard">
+            <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="9" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="22" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+    </svg>
+
+    <div class="desk">
+
+        <!-- Главный листок -->
+        <main class="sheet">
+            <h1>True Adam of Techlyceum</h1>
+            <h2>MOG MOG MOG</h2>
+            <p class="disclaimer">Сайт создан исключительно в развлекательных целях и для поднятия настроения.</p>
+            <section class="game-banner" id="banner">
+                <span class="tag">ИГРА №1</span>
+                <h3>Кто кого могает?</h3>
+                <p>Перед тобой два учителя лицея. Выбери, кто кого могает. В конце определится True Adam, а за ним chad, htn, mtn, ltn, sub 5 и все остальные sub 3.</p>
+                <button class="play" id="playBtn" type="button">Играть</button>
+            </section>
+
+            <section class="arena" id="arena" hidden>
+                <div class="arena-top">
+                    <span class="tag" id="stage"></span>
+                    <span id="count"></span>
+                </div>
+                <div class="duel" id="duel">
+                    <button class="card" id="cardA" type="button"></button>
+                    <div class="vs">VS</div>
+                    <button class="card" id="cardB" type="button"></button>
+                </div>
+                <div class="results" id="results" hidden></div>
+                <button class="play small" id="exitBtn" type="button">Выйти</button>
+            </section>
+
+            <p class="description"></p>
+        </main>
+
+        <!-- Кнопки-листочки вне главного листа -->
+        <nav class="tabs">
+            <button class="note" type="button" style="--tilt: -3deg">Раздел 1</button>
+            <button class="note" type="button" style="--tilt: 2deg">Раздел 2</button>
+            <button class="note" type="button" style="--tilt: -1.5deg">Раздел 3</button>
+        </nav>
+
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
