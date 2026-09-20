@@ -1,3 +1,9 @@
+// ====== ОБЩИЙ РЕЙТИНГ (Google Таблица) ======
+// Вставь сюда ссылку на веб-приложение Apps Script (заканчивается на /exec).
+// Пока пусто — игра работает, но рейтинг выключен.
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbwmbeRihb9_9C7aP--4AIeWB7rL6JQKA9cLNewg5uggtuEvaGmGDXfcPk_58THb2w31Vg/exec";
+// ============================================
+
 // ====== УЧИТЕЛЯ ======
 // [файл из папки img, ФИО, должность]
 const DATA = [
@@ -43,7 +49,65 @@ const teachers = DATA.map(([file, name, role], i) => ({
     short: name.split(" ").slice(0, 2).join(" "), // Прізвище Ім'я
 }));
 
-let wins, count, resolver;
+let wins, count, resolver, duelLog;
+
+const statsOn = () => !!SHEET_URL;
+
+// Отправляем результат игры: топ-6 и все сделанные выборы в дуэлях
+async function submit(placed) {
+    if (!statsOn()) return;
+    try {
+        await fetch(SHEET_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ placed, duels: duelLog }),
+        });
+    } catch (e) {
+        console.warn("Не удалось отправить результат", e);
+    }
+}
+
+const POINTS = ["adam", "chad", "htn", "mtn", "ltn", "sub5"]; // 6,5,4,3,2,1 очков
+
+async function showBoard() {
+    resolver = null;
+    $("banner").hidden = true;
+    $("arena").hidden = true;
+    $("board").hidden = false;
+    const info = $("boardInfo");
+    const table = $("boardTable");
+    table.replaceChildren();
+    if (!statsOn()) {
+        info.textContent = "Общий рейтинг ещё не подключён.";
+        return;
+    }
+    info.textContent = "Загрузка...";
+    try {
+        const res = await fetch(SHEET_URL);
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        const rows = data.teachers.map((r, id) => ({
+            ...r,
+            teacher: id,
+            score: POINTS.reduce((s, k, i) => s + (6 - i) * r[k], 0),
+        }));
+        rows.sort((a, b) => b.score - a.score || b.adam - a.adam || a.teacher - b.teacher);
+        info.textContent = "Сыграно игр: " + data.games + ". Очки: True Adam 6, chad 5, htn 4, mtn 3, ltn 2, sub 5 1.";
+        const head = ["#", "Учитель", "True Adam", "chad", "htn", "mtn", "ltn", "sub 5", "sub 3", "Очки", "Побед в дуэлях"];
+        const thead = table.createTHead().insertRow();
+        head.forEach((t) => (thead.appendChild(document.createElement("th")).textContent = t));
+        const body = table.createTBody();
+        rows.forEach((r, i) => {
+            const tr = body.insertRow();
+            const duels = r.dw + r.dl ? Math.round((100 * r.dw) / (r.dw + r.dl)) + "%" : "–";
+            [i + 1, teachers[r.teacher] ? teachers[r.teacher].short : "?", r.adam, r.chad, r.htn, r.mtn, r.ltn, r.sub5, r.sub3, r.score, duels]
+                .forEach((v) => (tr.insertCell().textContent = v));
+        });
+    } catch (e) {
+        info.textContent = "Не удалось загрузить рейтинг. Попробуй позже.";
+    }
+}
 
 const shuffle = (a) => {
     a = [...a];
@@ -106,6 +170,7 @@ async function duel(a, b) {
     const r = await ask(a, b);
     const [w, l] = r > 0 ? [a, b] : [b, a];
     wins[w].add(l);
+    duelLog.push([w, l]);
     return w;
 }
 
@@ -124,9 +189,12 @@ async function play() {
     $("banner").hidden = true;
     $("arena").hidden = false;
     $("results").hidden = true;
+    $("board").hidden = true;
+    $("boardBtn2").hidden = true;
     $("duel").hidden = false;
     wins = teachers.map(() => new Set());
     count = 0;
+    duelLog = [];
     const placed = [];
     for (let k = 0; k < TIERS.length; k++) {
         $("stage").textContent = "Кто " + TIERS[k] + "?";
@@ -168,6 +236,8 @@ function showResults(placed) {
     $("count").textContent = "";
     $("exitBtn").textContent = "Играть снова";
     box.hidden = false;
+    $("boardBtn2").hidden = false;
+    submit(placed);
 }
 
 $("cardA").onclick = () => resolver && resolver(1);
@@ -179,4 +249,11 @@ $("exitBtn").onclick = () => {
     $("arena").hidden = true;
     $("banner").hidden = false;
     $("exitBtn").textContent = "Выйти";
+};
+$("boardBtn").onclick = showBoard;
+$("boardBtn2").onclick = showBoard;
+$("boardBack").onclick = () => {
+    $("board").hidden = true;
+    $("arena").hidden = true;
+    $("banner").hidden = false;
 };
