@@ -1,7 +1,7 @@
 // ====== ОБЩИЙ РЕЙТИНГ (Google Таблица) ======
 // Вставь сюда ссылку на веб-приложение Apps Script (заканчивается на /exec).
 // Пока пусто — игра работает, но рейтинг выключен.
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbwmbeRihb9_9C7aP--4AIeWB7rL6JQKA9cLNewg5uggtuEvaGmGDXfcPk_58THb2w31Vg/exec";
+const SHEET_URL = "";
 // ============================================
 
 // ====== УЧИТЕЛЯ ======
@@ -61,7 +61,7 @@ async function submit(placed) {
             method: "POST",
             mode: "no-cors",
             headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify({ placed, duels: duelLog }),
+            body: JSON.stringify({ placed, duels: duelLog, vid: VID }),
         });
     } catch (e) {
         console.warn("Не удалось отправить результат", e);
@@ -70,43 +70,58 @@ async function submit(placed) {
 
 const POINTS = ["adam", "chad", "htn", "mtn", "ltn", "sub5"]; // 6,5,4,3,2,1 очков
 
+let boardData = null, boardMsg = "";
+let stageK = null, countN = 0, resultsShown = false;
+
+// Тексты, которые меняются при смене языка
+function renderGameText() {
+    $("stage").textContent = stageK === null ? "" : stageK === -1 ? t("results") : t("whoIs", TIERS[stageK]);
+    $("count").textContent = countN ? t("choice", countN) : "";
+    $("exitBtn").textContent = resultsShown ? t("again") : t("exit");
+}
+
 async function showBoard() {
     resolver = null;
     $("banner").hidden = true;
     $("arena").hidden = true;
     $("board").hidden = false;
-    const info = $("boardInfo");
-    const table = $("boardTable");
-    table.replaceChildren();
-    if (!statsOn()) {
-        info.textContent = "Общий рейтинг ещё не подключён.";
-        return;
-    }
-    info.textContent = "Загрузка...";
+    boardData = null;
+    if (!statsOn()) { boardMsg = "boardOff"; renderBoard(); return; }
+    boardMsg = "boardLoading";
+    renderBoard();
     try {
         const res = await fetch(SHEET_URL);
         if (!res.ok) throw new Error(res.status);
-        const data = await res.json();
-        const rows = data.teachers.map((r, id) => ({
-            ...r,
-            teacher: id,
-            score: POINTS.reduce((s, k, i) => s + (6 - i) * r[k], 0),
-        }));
-        rows.sort((a, b) => b.score - a.score || b.adam - a.adam || a.teacher - b.teacher);
-        info.textContent = "Сыграно игр: " + data.games + ". Очки: True Adam 6, chad 5, htn 4, mtn 3, ltn 2, sub 5 1.";
-        const head = ["#", "Учитель", "True Adam", "chad", "htn", "mtn", "ltn", "sub 5", "sub 3", "Очки", "Побед в дуэлях"];
-        const thead = table.createTHead().insertRow();
-        head.forEach((t) => (thead.appendChild(document.createElement("th")).textContent = t));
-        const body = table.createTBody();
-        rows.forEach((r, i) => {
-            const tr = body.insertRow();
-            const duels = r.dw + r.dl ? Math.round((100 * r.dw) / (r.dw + r.dl)) + "%" : "–";
-            [i + 1, teachers[r.teacher] ? teachers[r.teacher].short : "?", r.adam, r.chad, r.htn, r.mtn, r.ltn, r.sub5, r.sub3, r.score, duels]
-                .forEach((v) => (tr.insertCell().textContent = v));
-        });
+        boardData = await res.json();
+        boardMsg = "";
     } catch (e) {
-        info.textContent = "Не удалось загрузить рейтинг. Попробуй позже.";
+        boardMsg = "boardErr";
     }
+    renderBoard();
+}
+
+function renderBoard() {
+    const info = $("boardInfo");
+    const table = $("boardTable");
+    table.replaceChildren();
+    if (!boardData) { info.textContent = boardMsg ? t(boardMsg) : ""; return; }
+    const rows = boardData.teachers.map((r, id) => ({
+        ...r,
+        teacher: id,
+        score: POINTS.reduce((s, k, i) => s + (6 - i) * r[k], 0),
+    }));
+    rows.sort((a, b) => b.score - a.score || b.adam - a.adam || a.teacher - b.teacher);
+    info.textContent = t("boardInfo", boardData.games);
+    const head = ["#", t("thTeacher"), "True Adam", "chad", "htn", "mtn", "ltn", "sub 5", "sub 3", t("thScore"), t("thDuels")];
+    const thead = table.createTHead().insertRow();
+    head.forEach((h) => (thead.appendChild(document.createElement("th")).textContent = h));
+    const body = table.createTBody();
+    rows.forEach((r, i) => {
+        const tr = body.insertRow();
+        const duels = r.dw + r.dl ? Math.round((100 * r.dw) / (r.dw + r.dl)) + "%" : "–";
+        [i + 1, teachers[r.teacher] ? teachers[r.teacher].short : "?", r.adam, r.chad, r.htn, r.mtn, r.ltn, r.sub5, r.sub3, r.score, duels]
+            .forEach((v) => (tr.insertCell().textContent = v));
+    });
 }
 
 const shuffle = (a) => {
@@ -159,7 +174,8 @@ function ask(a, b) {
         const flip = Math.random() < 0.5;
         fill($("cardA"), teachers[flip ? b : a]);
         fill($("cardB"), teachers[flip ? a : b]);
-        $("count").textContent = "Выбор №" + ++count;
+        countN = ++count;
+        renderGameText();
         resolver = (side) => resolve(flip ? -side : side); // 1 = победил a
     });
 }
@@ -195,9 +211,14 @@ async function play() {
     wins = teachers.map(() => new Set());
     count = 0;
     duelLog = [];
+    stageK = 0;
+    countN = 0;
+    resultsShown = false;
+    renderGameText();
     const placed = [];
     for (let k = 0; k < TIERS.length; k++) {
-        $("stage").textContent = "Кто " + TIERS[k] + "?";
+        stageK = k;
+        renderGameText();
         // k-е место мог занять только тот, кто проиграл кому-то из уже выбранных
         const pool = k === 0
             ? teachers.map((t) => t.id)
@@ -232,11 +253,13 @@ function showResults(placed) {
         box.append(tier);
     });
     $("duel").hidden = true;
-    $("stage").textContent = "Итоги";
-    $("count").textContent = "";
-    $("exitBtn").textContent = "Играть снова";
+    stageK = -1;
+    countN = 0;
+    resultsShown = true;
+    renderGameText();
     box.hidden = false;
     $("boardBtn2").hidden = false;
+    saveMe(placed);
     submit(placed);
 }
 
@@ -245,10 +268,12 @@ $("cardB").onclick = () => resolver && resolver(-1);
 $("playBtn").onclick = play;
 $("exitBtn").onclick = () => {
     resolver = null;
-    if (!$("results").hidden) { $("exitBtn").textContent = "Выйти"; return play(); }
+    if (!$("results").hidden) return play();
     $("arena").hidden = true;
     $("banner").hidden = false;
-    $("exitBtn").textContent = "Выйти";
+    stageK = null;
+    resultsShown = false;
+    renderGameText();
 };
 $("boardBtn").onclick = showBoard;
 $("boardBtn2").onclick = showBoard;

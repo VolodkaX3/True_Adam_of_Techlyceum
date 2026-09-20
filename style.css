@@ -101,7 +101,7 @@ h2 {
 }
 
 .disclaimer::before {
-    content: "! ВНИМАНИЕ";
+    content: attr(data-label);
     position: absolute;
     top: -16px;
     left: 16px;
@@ -550,4 +550,111 @@ a:hover {
 .board tbody tr:nth-child(-n + 3) td {
     background-color: var(--alert-soft);
     font-weight: 800;
+}
+
+
+/* ---------- Разделы: статистика, настройки, об авторе ---------- */
+
+.note.active {
+    background-color: var(--accent-2);
+    box-shadow: 2px 2px 0 var(--ink);
+}
+
+.board h4 {
+    margin: 24px 0 10px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.stat {
+    padding: 12px 14px;
+    background-color: var(--paper);
+    border: var(--border);
+    box-shadow: 4px 4px 0 var(--ink);
+}
+
+.stat b {
+    display: block;
+    font-size: 1.8rem;
+    line-height: 1.1;
+}
+
+.stat span {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.stat.live {
+    background-color: var(--accent-2);
+}
+
+.stat.live b::before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    vertical-align: middle;
+    background-color: var(--accent);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+    50% { transform: scale(1.5); }
+}
+
+.bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 150px;
+    padding: 8px;
+    border: var(--border);
+}
+
+.bar-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    text-align: center;
+}
+
+.bar {
+    width: 100%;
+    background-color: var(--accent);
+    border: 2px solid var(--ink);
+}
+
+.bar-col small {
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.toplist {
+    margin: 0;
+    padding-left: 22px;
+    font-weight: 600;
+}
+
+.lang-btn.active {
+    background-color: var(--accent-2);
+}
+
+.hint {
+    margin: 12px 0 0;
+    font-size: 0.85rem;
 }

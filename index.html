@@ -26,14 +26,15 @@
         <main class="sheet">
             <h1>True Adam of Techlyceum</h1>
             <h2>MOG MOG MOG</h2>
-            <p class="disclaimer">Сайт создан исключительно в развлекательных целях и для поднятия настроения.</p>
+            <p class="disclaimer" data-label="! ВНИМАНИЕ" data-i18n-label="disclaimerLabel" data-i18n="disclaimer">Сайт создан исключительно в развлекательных целях и для поднятия настроения.</p>
+            <div class="view" id="view-home">
             <section class="game-banner" id="banner">
-                <span class="tag">ИГРА №1</span>
-                <h3>Кто кого могает?</h3>
-                <p>Перед тобой два учителя лицея. Выбери, кто кого могает. В конце определится True Adam, а за ним chad, htn, mtn, ltn, sub 5 и все остальные sub 3.</p>
+                <span class="tag" data-i18n="gameTag">ИГРА №1</span>
+                <h3 data-i18n="gameTitle">Кто кого могает?</h3>
+                <p data-i18n="gameDesc">Перед тобой два учителя лицея. Выбери, кто кого могает. В конце определится True Adam, а за ним chad, htn, mtn, ltn, sub 5 и все остальные sub 3.</p>
                 <div class="btn-row">
-                    <button class="play" id="playBtn" type="button">Играть</button>
-                    <button class="play alt" id="boardBtn" type="button">Общий рейтинг</button>
+                    <button class="play" id="playBtn" type="button" data-i18n="play">Играть</button>
+                    <button class="play alt" id="boardBtn" type="button" data-i18n="board">Общий рейтинг</button>
                 </div>
             </section>
 
@@ -50,31 +51,76 @@
                 <div class="results" id="results" hidden></div>
                 <div class="btn-row">
                     <button class="play small" id="exitBtn" type="button">Выйти</button>
-                    <button class="play small" id="boardBtn2" type="button" hidden>Общий рейтинг</button>
+                    <button class="play small" id="boardBtn2" type="button" data-i18n="board" hidden>Общий рейтинг</button>
                 </div>
             </section>
 
             <section class="board" id="board" hidden>
-                <h3>Общий рейтинг</h3>
+                <h3 data-i18n="board">Общий рейтинг</h3>
                 <p id="boardInfo"></p>
                 <div class="table-wrap"><table id="boardTable"></table></div>
                 <div class="btn-row">
-                    <button class="play small" id="boardBack" type="button">Назад</button>
+                    <button class="play small" id="boardBack" type="button" data-i18n="back">Назад</button>
                 </div>
             </section>
 
             <p class="description"></p>
+            </div>
+
+            <!-- ===== Статистика ===== -->
+            <div class="view" id="view-stats" hidden>
+                <section class="board">
+                    <h3 data-i18n="navStats">Статистика</h3>
+                    <p id="statsMsg"></p>
+                    <div class="stats-grid" id="statsGrid"></div>
+                    <div id="statsExtra"></div>
+                    <div class="btn-row"><button class="play small" type="button" data-view="home" data-i18n="home">На главную</button></div>
+                </section>
+            </div>
+
+            <!-- ===== Настройки ===== -->
+            <div class="view" id="view-settings" hidden>
+                <section class="board">
+                    <h3 data-i18n="navSettings">Настройки</h3>
+                    <h4 data-i18n="langTitle">Язык</h4>
+                    <div class="btn-row lang-row">
+                        <button class="play small lang-btn" type="button" data-lang="ru">Русский</button>
+                        <button class="play small lang-btn" type="button" data-lang="en">English</button>
+                        <button class="play small lang-btn" type="button" data-lang="uk">Українська</button>
+                    </div>
+                    <p class="hint" data-i18n="langNote">Имена и должности учителей не переводятся.</p>
+                    <!-- Сюда можно добавлять другие настройки -->
+                    <div class="btn-row"><button class="play small" type="button" data-view="home" data-i18n="home">На главную</button></div>
+                </section>
+            </div>
+
+            <!-- ===== Об авторе ===== -->
+            <div class="view" id="view-about" hidden>
+                <section class="board">
+                    <h3 data-i18n="navAbout">Об авторе</h3>
+
+                    <!-- ============ ПИШИ ТЕКСТ ОБ АВТОРЕ ЗДЕСЬ (замени содержимое блока ниже) ============ -->
+                    <div class="about" id="aboutContent">
+                        <p data-i18n="aboutSoon">Скоро здесь что-то появится.</p>
+                    </div>
+                    <!-- ================================================================================= -->
+
+                    <div class="btn-row"><button class="play small" type="button" data-view="home" data-i18n="home">На главную</button></div>
+                </section>
+            </div>
         </main>
 
         <!-- Кнопки-листочки вне главного листа -->
         <nav class="tabs">
-            <button class="note" type="button" style="--tilt: -3deg">Раздел 1</button>
-            <button class="note" type="button" style="--tilt: 2deg">Раздел 2</button>
-            <button class="note" type="button" style="--tilt: -1.5deg">Раздел 3</button>
+            <button class="note" type="button" data-view="stats" data-i18n="navStats" style="--tilt: -3deg">Статистика</button>
+            <button class="note" type="button" data-view="settings" data-i18n="navSettings" style="--tilt: 2deg">Настройки</button>
+            <button class="note" type="button" data-view="about" data-i18n="navAbout" style="--tilt: -1.5deg">Об авторе</button>
         </nav>
 
     </div>
 
+    <script src="i18n.js"></script>
     <script src="game.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
