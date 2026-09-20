@@ -1,7 +1,7 @@
 // ====== ОБЩИЙ РЕЙТИНГ (Google Таблица) ======
 // Вставь сюда ссылку на веб-приложение Apps Script (заканчивается на /exec).
 // Пока пусто — игра работает, но рейтинг выключен.
-const SHEET_URL = "";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbwmbeRihb9_9C7aP--4AIeWB7rL6JQKA9cLNewg5uggtuEvaGmGDXfcPk_58THb2w31Vg/exec";
 // ============================================
 
 // ====== УЧИТЕЛЯ ======
