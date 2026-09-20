@@ -483,3 +483,71 @@ a:hover {
 .thumb img {
     object-position: center top;
 }
+
+/* ---------- Общий рейтинг ---------- */
+
+.btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn-row .play {
+    margin-top: 0;
+}
+
+.game-banner .btn-row {
+    margin-top: 0;
+}
+
+.play.alt {
+    background-color: #fff;
+}
+
+.board {
+    margin: 40px 0 24px;
+    padding: 24px;
+    background-color: #fff;
+    border: var(--border);
+    box-shadow: 6px 6px 0 var(--ink);
+}
+
+.board h3 {
+    margin: 0 0 8px;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.board table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.board th,
+.board td {
+    padding: 6px 8px;
+    text-align: center;
+    white-space: nowrap;
+    border: 2px solid var(--ink);
+}
+
+.board td:nth-child(2) {
+    text-align: left;
+    font-weight: 600;
+}
+
+.board th {
+    background-color: var(--accent-2);
+}
+
+.board tbody tr:nth-child(-n + 3) td {
+    background-color: var(--alert-soft);
+    font-weight: 800;
+}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>True Adam of Techlyceum</title>
+    <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,7 +31,10 @@
                 <span class="tag">ИГРА №1</span>
                 <h3>Кто кого могает?</h3>
                 <p>Перед тобой два учителя лицея. Выбери, кто кого могает. В конце определится True Adam, а за ним chad, htn, mtn, ltn, sub 5 и все остальные sub 3.</p>
-                <button class="play" id="playBtn" type="button">Играть</button>
+                <div class="btn-row">
+                    <button class="play" id="playBtn" type="button">Играть</button>
+                    <button class="play alt" id="boardBtn" type="button">Общий рейтинг</button>
+                </div>
             </section>
 
             <section class="arena" id="arena" hidden>
@@ -45,7 +48,19 @@
                     <button class="card" id="cardB" type="button"></button>
                 </div>
                 <div class="results" id="results" hidden></div>
-                <button class="play small" id="exitBtn" type="button">Выйти</button>
+                <div class="btn-row">
+                    <button class="play small" id="exitBtn" type="button">Выйти</button>
+                    <button class="play small" id="boardBtn2" type="button" hidden>Общий рейтинг</button>
+                </div>
+            </section>
+
+            <section class="board" id="board" hidden>
+                <h3>Общий рейтинг</h3>
+                <p id="boardInfo"></p>
+                <div class="table-wrap"><table id="boardTable"></table></div>
+                <div class="btn-row">
+                    <button class="play small" id="boardBack" type="button">Назад</button>
+                </div>
             </section>
 
             <p class="description"></p>
