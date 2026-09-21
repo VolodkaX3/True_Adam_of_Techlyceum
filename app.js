@@ -141,4 +141,50 @@ document.querySelectorAll(".lang-btn").forEach((b) => {
     b.onclick = () => { lang = b.dataset.lang; store.set("lang", lang); applyLang(); };
 });
 
+// ---------- эффект появления True Adam ----------
+const MOG_TEXT = "MOG"; // "кричащее" слово (можно заменить на "МОГ")
+let fxRun = 0;
+
+function playAdamFx(tr) {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return; // без резких вспышек для тех, кому они мешают
+    const fx = $("adamFx"), stage = $("adamStage"), words = $("adamWords"), reveal = $("adamReveal");
+    const id = ++fxRun;
+    const timers = [];
+    const later = (fn, ms) => timers.push(setTimeout(() => id === fxRun && fn(), ms));
+    const close = () => { fxRun++; timers.forEach(clearTimeout); fx.hidden = true; };
+    const shake = (px) => {
+        stage.style.setProperty("--shake", px + "px");
+        stage.classList.remove("shake");
+        void stage.offsetWidth;
+        stage.classList.add("shake");
+    };
+    words.replaceChildren();
+    words.hidden = false;
+    reveal.replaceChildren();
+    reveal.hidden = true;
+    fx.classList.remove("flash");
+    fx.hidden = false;
+    fx.onclick = close;
+
+    const colors = ["#ffffff", "#ff3b3b", "#ffb84d", "#ffffff"];
+    for (let i = 0; i < 4; i++) {
+        later(() => {
+            const w = el("span", null, MOG_TEXT);
+            w.style.color = colors[i];
+            w.style.fontSize = 15 + i * 2 + "vmin";
+            w.style.rotate = (Math.random() * 6 - 3).toFixed(1) + "deg";
+            words.append(w);
+            shake(6 + i * 5);
+        }, i * 260);
+    }
+    later(() => {
+        words.hidden = true;
+        fx.classList.add("flash");
+        reveal.append(el("span", "tag", "TRUE ADAM"), photo(tr), el("b", null, tr.name), el("small", null, tr.role));
+        reveal.hidden = false;
+        shake(14);
+    }, 1200);
+    later(close, 4500);
+}
+
 applyLang();

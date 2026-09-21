@@ -81,7 +81,7 @@ function renderGameText() {
 }
 
 async function showBoard() {
-    resolver = null;
+    cancelRun();
     $("banner").hidden = true;
     $("arena").hidden = true;
     $("board").hidden = false;
@@ -169,14 +169,27 @@ function fill(el, t) {
     el.replaceChildren(photo(t), box);
 }
 
+let runId = 0;
+const cancelRun = () => { runId++; resolver = null; };
+const MOG_DELAY = 850; // сколько держим штамп MOGGED перед следующим выбором (мс)
+
 function ask(a, b) {
     return new Promise((resolve) => {
         const flip = Math.random() < 0.5;
-        fill($("cardA"), teachers[flip ? b : a]);
-        fill($("cardB"), teachers[flip ? a : b]);
+        const cA = $("cardA"), cB = $("cardB");
+        [cA, cB].forEach((c) => c.classList.remove("mogged", "won"));
+        fill(cA, teachers[flip ? b : a]);
+        fill(cB, teachers[flip ? a : b]);
         countN = ++count;
         renderGameText();
-        resolver = (side) => resolve(flip ? -side : side); // 1 = победил a
+        const id = runId;
+        resolver = (side) => {
+            resolver = null; // защита от двойного клика
+            const [win, lose] = side > 0 ? [cA, cB] : [cB, cA];
+            win.classList.add("won");
+            lose.classList.add("mogged"); // проигравший "могнут"
+            setTimeout(() => { if (id === runId) resolve(flip ? -side : side); }, MOG_DELAY); // 1 = победил a
+        };
     });
 }
 
@@ -202,6 +215,7 @@ async function knockout(list) {
 }
 
 async function play() {
+    cancelRun();
     $("banner").hidden = true;
     $("arena").hidden = false;
     $("results").hidden = true;
@@ -261,13 +275,14 @@ function showResults(placed) {
     $("boardBtn2").hidden = false;
     saveMe(placed);
     submit(placed);
+    playAdamFx(teachers[placed[0]]);
 }
 
 $("cardA").onclick = () => resolver && resolver(1);
 $("cardB").onclick = () => resolver && resolver(-1);
 $("playBtn").onclick = play;
 $("exitBtn").onclick = () => {
-    resolver = null;
+    cancelRun();
     if (!$("results").hidden) return play();
     $("arena").hidden = true;
     $("banner").hidden = false;

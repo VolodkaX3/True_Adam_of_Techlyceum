@@ -658,3 +658,171 @@ a:hover {
     margin: 12px 0 0;
     font-size: 0.85rem;
 }
+
+
+/* hidden должен всегда скрывать элемент (иначе display:grid/flex его "оживляет") */
+[hidden] {
+    display: none !important;
+}
+
+/* ---------- MOGGED: проигравший в дуэли ---------- */
+
+.card {
+    position: relative;
+}
+
+.card.mogged,
+.card.won {
+    pointer-events: none;
+}
+
+.card.won {
+    background-color: var(--accent-2);
+    transform: translate(-3px, -3px) rotate(-1deg);
+    box-shadow: 8px 8px 0 var(--ink);
+}
+
+.card.mogged {
+    opacity: 0.85;
+    transform: rotate(4deg) scale(0.94);
+    box-shadow: 2px 2px 0 var(--ink);
+}
+
+.card.mogged img,
+.card.mogged .ph {
+    filter: grayscale(1) contrast(1.15);
+}
+
+.card.mogged::after {
+    content: "MOGGED";
+    position: absolute;
+    left: 50%;
+    top: 38%;
+    padding: 2px 12px;
+    font-size: clamp(1.3rem, 5.5vw, 2.1rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    color: #fff;
+    background-color: var(--alert);
+    border: var(--border);
+    box-shadow: 4px 4px 0 var(--ink);
+    transform: translate(-50%, -50%) rotate(-12deg);
+    animation: stamp 0.28s cubic-bezier(0.1, 0.9, 0.2, 1) both;
+}
+
+@keyframes stamp {
+    0% { transform: translate(-50%, -50%) rotate(-12deg) scale(3.2); opacity: 0; }
+    40% { opacity: 1; }
+    100% { transform: translate(-50%, -50%) rotate(-12deg) scale(1); }
+}
+
+/* ---------- Появление True Adam ---------- */
+
+.adam-fx {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    background: #000;
+}
+
+.adam-fx.flash {
+    animation: flash 0.3s linear;
+}
+
+@keyframes flash {
+    0% { background: #fff; }
+    50% { background: var(--accent); }
+    100% { background: #000; }
+}
+
+.adam-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.adam-stage.shake {
+    animation: shake 0.25s linear;
+}
+
+@keyframes shake {
+    0% { transform: translate(var(--shake), 0); }
+    20% { transform: translate(calc(var(--shake) * -1), var(--shake)); }
+    40% { transform: translate(var(--shake), calc(var(--shake) * -1)); }
+    60% { transform: translate(calc(var(--shake) * -1), 0); }
+    80% { transform: translate(0, var(--shake)); }
+    100% { transform: none; }
+}
+
+.adam-words {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.adam-words span {
+    display: block;
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    white-space: nowrap;
+    text-transform: uppercase;
+    animation: slam 0.16s cubic-bezier(0.1, 0.9, 0.2, 1) both;
+}
+
+@keyframes slam {
+    0% { transform: scale(2.6); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+.adam-reveal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+    animation: slam 0.18s cubic-bezier(0.1, 0.9, 0.2, 1) both;
+}
+
+.adam-reveal .tag {
+    font-size: clamp(1.6rem, 7vmin, 3rem);
+    color: var(--ink);
+    background-color: var(--accent-2);
+    transform: rotate(-3deg);
+}
+
+.adam-reveal img,
+.adam-reveal .ph {
+    width: min(46vmin, 300px);
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: center top;
+    border: 4px solid #fff;
+    box-shadow: 8px 8px 0 var(--accent);
+}
+
+.adam-reveal b {
+    font-size: clamp(1.1rem, 4vmin, 1.8rem);
+}
+
+.adam-reveal small {
+    opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card.mogged::after {
+        animation: none;
+    }
+}
