@@ -146,13 +146,14 @@ const MOG_TEXT = "MOG"; // "кричащее" слово (можно замен�
 let fxRun = 0;
 
 function playAdamFx(tr) {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return; // без резких вспышек для тех, кому они мешают
+    const calm = fxMode === "calm"; // упрощённый режим: без вспышек и тряски
     const fx = $("adamFx"), stage = $("adamStage"), words = $("adamWords"), reveal = $("adamReveal");
     const id = ++fxRun;
     const timers = [];
     const later = (fn, ms) => timers.push(setTimeout(() => id === fxRun && fn(), ms));
     const close = () => { fxRun++; timers.forEach(clearTimeout); fx.hidden = true; };
     const shake = (px) => {
+        if (calm) return;
         stage.style.setProperty("--shake", px + "px");
         stage.classList.remove("shake");
         void stage.offsetWidth;
@@ -179,12 +180,83 @@ function playAdamFx(tr) {
     }
     later(() => {
         words.hidden = true;
-        fx.classList.add("flash");
+        if (!calm) fx.classList.add("flash");
         reveal.append(el("span", "tag", "TRUE ADAM"), photo(tr), el("b", null, tr.name), el("small", null, tr.role));
         reveal.hidden = false;
         shake(14);
+        confetti(innerWidth / 2, innerHeight / 2, 70);
     }, 1200);
     later(close, 4500);
 }
+
+// ---------- конфетти и вылетающие MOG ----------
+const rand = (a, b) => a + Math.random() * (b - a);
+
+function confetti(x, y, n = 36) {
+    if (fxMode === "calm") return;
+    const colors = ["#ff3b3b", "#ffb84d", "#d90429", "#111111", "#ffffff"];
+    for (let i = 0; i < n; i++) {
+        const p = el("i", "confetti");
+        p.style.left = x + "px";
+        p.style.top = y + "px";
+        p.style.background = colors[i % colors.length];
+        document.body.append(p);
+        const ang = Math.random() * Math.PI * 2;
+        const d = rand(80, 260);
+        p.animate(
+            [
+                { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+                { transform: `translate(${Math.cos(ang) * d}px, ${Math.sin(ang) * d - 60}px) rotate(${rand(-540, 540)}deg)`, opacity: 1, offset: 0.6 },
+                { transform: `translate(${Math.cos(ang) * d * 1.1}px, ${Math.sin(ang) * d + 260}px) rotate(${rand(-720, 720)}deg)`, opacity: 0 },
+            ],
+            { duration: rand(900, 1500), easing: "cubic-bezier(.2,.8,.4,1)" }
+        ).onfinish = () => p.remove();
+    }
+}
+
+function floatWord(x, y) {
+    if (fxMode === "calm") return;
+    const w = el("span", "float-mog", MOG_TEXT + "!");
+    w.style.left = x + "px";
+    w.style.top = y + "px";
+    w.style.fontSize = rand(1.3, 2.8) + "rem";
+    w.style.color = ["#ff3b3b", "#ffb84d", "#d90429", "#ffffff"][Math.floor(rand(0, 4))];
+    document.body.append(w);
+    w.animate(
+        [
+            { transform: `translate(-50%,-50%) rotate(${rand(-20, 20)}deg) scale(0.4)`, opacity: 1 },
+            { transform: `translate(-50%,-170px) rotate(${rand(-30, 30)}deg) scale(1.2)`, opacity: 0 },
+        ],
+        { duration: 900, easing: "cubic-bezier(.1,.8,.3,1)" }
+    ).onfinish = () => w.remove();
+}
+
+// Наклейка MOG! на листе: жми сколько хочешь
+$("sticker").onclick = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX || r.left + r.width / 2;
+    const y = e.clientY || r.top + r.height / 2;
+    floatWord(x, y);
+    confetti(x, y, 14);
+};
+
+// Конфетти при нажатии "Играть" (до того, как баннер спрячется)
+document.addEventListener("click", (e) => {
+    const b = e.target.closest && e.target.closest("#playBtn");
+    if (!b) return;
+    const r = b.getBoundingClientRect();
+    confetti(r.left + r.width / 2, r.top + r.height / 2, 40);
+}, true);
+
+// ---------- режим анимаций ----------
+let fxMode = store.get("fx") || (matchMedia("(prefers-reduced-motion: reduce)").matches ? "calm" : "full");
+function applyFx() {
+    document.documentElement.dataset.fx = fxMode;
+    document.querySelectorAll(".fx-btn").forEach((b) => b.classList.toggle("active", b.dataset.fx === fxMode));
+}
+document.querySelectorAll(".fx-btn").forEach((b) => {
+    b.onclick = () => { fxMode = b.dataset.fx; store.set("fx", fxMode); applyFx(); };
+});
+applyFx();
 
 applyLang();

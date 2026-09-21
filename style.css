@@ -821,8 +821,204 @@ a:hover {
     opacity: 0.8;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .card.mogged::after {
-        animation: none;
+/* Упрощённый режим анимаций (Настройки) */
+[data-fx="calm"] .card.mogged::after,
+[data-fx="calm"] .adam-words span,
+[data-fx="calm"] .adam-reveal {
+    animation: none;
+}
+
+.fx-btn.active {
+    background-color: var(--accent-2);
+}
+
+
+/* ================= Больше характера ================= */
+
+/* Точки на столе медленно дрейфуют */
+html {
+    animation: drift 40s linear infinite;
+}
+
+@keyframes drift {
+    to { background-position: 22px 22px; }
+}
+
+/* Лист: скотч и наклейка */
+.sheet {
+    position: relative;
+}
+
+.sheet::before {
+    content: "";
+    position: absolute;
+    top: -18px;
+    left: 44px;
+    width: 120px;
+    height: 34px;
+    background-color: rgba(255, 217, 102, 0.8);
+    border: 2px dashed rgba(0, 0, 0, 0.25);
+    transform: rotate(-6deg);
+    z-index: 2;
+}
+
+.sticker {
+    padding: 0;
+    font-family: inherit;
+    cursor: pointer;
+    position: absolute;
+    top: -26px;
+    right: -22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 84px;
+    height: 84px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #fff;
+    background-color: var(--alert);
+    border: var(--border);
+    border-radius: 50%;
+    box-shadow: 4px 4px 0 var(--ink);
+    rotate: 12deg;
+    z-index: 2;
+    animation: sticker 3s ease-in-out infinite;
+}
+
+@keyframes sticker {
+    50% { rotate: 4deg; scale: 1.08; }
+}
+
+/* Заголовок: редкий "удар" */
+h1 {
+    animation: punch 6s 1.5s infinite;
+}
+
+@keyframes punch {
+    0%, 88%, 100% { scale: 1; }
+    92% { scale: 1.035; }
+    96% { scale: 0.99; }
+}
+
+/* Появление блоков при загрузке и при смене раздела */
+.sheet > h2,
+.sheet > .disclaimer,
+.sheet > .view {
+    animation: pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+.sheet > .disclaimer { animation-delay: 0.08s; }
+.sheet > .view { animation-delay: 0.16s; }
+
+@keyframes pop {
+    from { opacity: 0; translate: 0 16px; scale: 0.97; }
+}
+
+/* Баннер игры: наклейка NEW, подпрыгивание, кнопка "зовёт" */
+.game-banner {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.game-banner:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 9px 9px 0 var(--ink);
+}
+
+.game-banner::after {
+    content: "NEW";
+    position: absolute;
+    top: -20px;
+    right: 18px;
+    padding: 2px 12px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    background-color: var(--accent-2);
+    border: var(--border);
+    box-shadow: 3px 3px 0 var(--ink);
+    rotate: 6deg;
+}
+
+.game-banner .play:not(.alt) {
+    animation: nudge 2.6s ease-in-out infinite;
+}
+
+@keyframes nudge {
+    0%, 70%, 100% { rotate: 0deg; }
+    76% { rotate: -3deg; }
+    82% { rotate: 3deg; }
+    88% { rotate: -2deg; }
+    94% { rotate: 1deg; }
+}
+
+/* Заголовки блоков: как выделено маркером */
+.game-banner h3,
+.board h3 {
+    display: inline-block;
+    background: linear-gradient(transparent 60%, var(--accent-2) 60%);
+}
+
+/* Карточки статистики слегка вразнобой */
+.stats-grid .stat:nth-child(odd) { rotate: -0.8deg; }
+.stats-grid .stat:nth-child(even) { rotate: 0.8deg; }
+
+@media (max-width: 700px) {
+    .sticker {
+        width: 64px;
+        height: 64px;
+        top: -22px;
+        right: -8px;
+        font-size: 0.95rem;
     }
+
+    .sheet::before {
+        left: 24px;
+        width: 90px;
+    }
+}
+
+/* Упрощённый режим: все украшательские анимации выключены */
+html[data-fx="calm"],
+html[data-fx="calm"] *,
+html[data-fx="calm"] *::before,
+html[data-fx="calm"] *::after {
+    animation: none !important;
+}
+
+
+/* Конфетти и вылетающие слова */
+.confetti {
+    position: fixed;
+    z-index: 1100;
+    width: 10px;
+    height: 14px;
+    border: 2px solid var(--ink);
+    pointer-events: none;
+}
+
+.float-mog {
+    position: fixed;
+    z-index: 1100;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-shadow: 3px 3px 0 var(--ink);
+    pointer-events: none;
+    user-select: none;
+}
+
+
+/* Раздел "Об авторе" */
+.about-role {
+    display: inline-block;
+    margin: 8px 0 12px;
+    padding: 4px 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: var(--accent);
+    border: var(--border);
+    box-shadow: 4px 4px 0 var(--ink);
+    rotate: -2deg;
 }

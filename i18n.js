@@ -26,6 +26,10 @@ const I18N = {
         meGames: "Игр сыграно", meDuels: "Выборов сделано", meAdam: "Твой любимый True Adam",
         meNone: "Сыграй первую игру, и здесь появится твоя статистика.",
         langTitle: "Язык", langNote: "Имена и должности учителей не переводятся.",
+        fxTitle: "Анимации", fxFull: "Полные", fxCalm: "Упрощённые",
+        fxNote: "Полные: резкие вспышки и тряска экрана. Упрощённые: то же самое, но без вспышек и тряски.",
+        aboutP1: "Автор: Диктатор, самый умнейший. Возражения не принимаются.",
+        aboutP2: "Сам сайт сделан для практики самого автора, без злого умысла.",
         aboutSoon: "Скоро здесь что-то появится.",
     },
     en: {
@@ -54,6 +58,10 @@ const I18N = {
         meGames: "Games played", meDuels: "Choices made", meAdam: "Your favorite True Adam",
         meNone: "Play your first game and your stats will appear here.",
         langTitle: "Language", langNote: "Teachers' names and positions are not translated.",
+        fxTitle: "Animations", fxFull: "Full", fxCalm: "Simplified",
+        fxNote: "Full: sharp flashes and screen shake. Simplified: the same, but without flashes and shaking.",
+        aboutP1: "Author: Dictator, the smartest. Objections are not accepted.",
+        aboutP2: "The site itself was made for the author's own practice, with no ill intent.",
         aboutSoon: "Something will appear here soon.",
     },
     uk: {
@@ -82,6 +90,10 @@ const I18N = {
         meGames: "Ігор зіграно", meDuels: "Виборів зроблено", meAdam: "Твій улюблений True Adam",
         meNone: "Зіграй першу гру, і тут з'явиться твоя статистика.",
         langTitle: "Мова", langNote: "Імена та посади вчителів не перекладаються.",
+        fxTitle: "Анімації", fxFull: "Повні", fxCalm: "Спрощені",
+        fxNote: "Повні: різкі спалахи та тремтіння екрана. Спрощені: те саме, але без спалахів і тремтіння.",
+        aboutP1: "Автор: Диктатор, найрозумніший. Заперечення не приймаються.",
+        aboutP2: "Сам сайт створено для практики самого автора, без злого умислу.",
         aboutSoon: "Скоро тут щось з'явиться.",
     },
 };
