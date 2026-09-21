@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
 
@@ -54,6 +54,7 @@
                 <div class="btn-row">
                     <button class="play small" id="exitBtn" type="button">Выйти</button>
                     <button class="play small" id="boardBtn2" type="button" data-i18n="board" hidden>Общий рейтинг</button>
+                    <button class="play small" id="certBtn" type="button" data-i18n="certBtn" hidden>Грамота</button>
                 </div>
             </section>
 
@@ -122,6 +123,20 @@
 
     </div>
 
+    <!-- Грамота (картинка с топом) -->
+    <div class="cert-modal" id="certModal" hidden>
+        <div class="cert-box">
+            <p id="certMsg" class="hint"></p>
+            <img id="certImg" alt="">
+            <p class="hint" data-i18n="certHint">На телефоне можно зажать картинку и сохранить её.</p>
+            <div class="btn-row">
+                <button class="play small" id="certSave" type="button" data-i18n="certSave">Сохранить</button>
+                <button class="play small" id="certShare" type="button" data-i18n="certShare" hidden>Поделиться</button>
+                <button class="play small" id="certClose" type="button" data-i18n="certClose">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Эффект появления True Adam -->
     <div class="adam-fx" id="adamFx" hidden>
         <div class="adam-stage" id="adamStage">
@@ -130,8 +145,8 @@
         </div>
     </div>
 
-    <script src="i18n.js?v=9"></script>
-    <script src="game.js?v=9"></script>
-    <script src="app.js?v=9"></script>
+    <script src="i18n.js?v=10"></script>
+    <script src="game.js?v=10"></script>
+    <script src="app.js?v=10"></script>
 </body>
 </html>

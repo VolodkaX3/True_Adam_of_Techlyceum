@@ -1022,3 +1022,60 @@ html[data-fx="calm"] *::after {
     box-shadow: 4px 4px 0 var(--ink);
     rotate: -2deg;
 }
+
+
+/* ---------- Грамота ---------- */
+
+#certBtn {
+    background-color: var(--accent-2);
+}
+
+.cert-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 900;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.78);
+}
+
+.cert-box {
+    width: min(520px, 100%);
+    margin: auto;
+    padding: 14px;
+    background-color: var(--paper);
+    border: var(--border);
+    box-shadow: 8px 8px 0 var(--accent);
+}
+
+.cert-box img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: var(--border);
+}
+
+#certImg:not([src]) {
+    display: none;
+}
+
+/* ---------- Стикер, который "вылезает" ---------- */
+
+.pop-sticker {
+    position: fixed;
+    z-index: 1200;
+    max-width: 60vw;
+    max-height: 60vh;
+    object-fit: contain;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(6px 6px 0 #111111);
+    animation: sway 1.4s ease-in-out infinite;
+}
+
+@keyframes sway {
+    50% { rotate: 5deg; }
+}

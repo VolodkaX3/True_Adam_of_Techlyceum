@@ -71,7 +71,7 @@ async function submit(placed) {
 const POINTS = ["adam", "chad", "htn", "mtn", "ltn", "sub5"]; // 6,5,4,3,2,1 очков
 
 let boardData = null, boardMsg = "";
-let stageK = null, countN = 0, resultsShown = false;
+let stageK = null, countN = 0, resultsShown = false, lastPlaced = null;
 
 // Тексты, которые меняются при смене языка
 function renderGameText() {
@@ -221,6 +221,7 @@ async function play() {
     $("results").hidden = true;
     $("board").hidden = true;
     $("boardBtn2").hidden = true;
+    $("certBtn").hidden = true;
     $("duel").hidden = false;
     wins = teachers.map(() => new Set());
     count = 0;
@@ -273,6 +274,8 @@ function showResults(placed) {
     renderGameText();
     box.hidden = false;
     $("boardBtn2").hidden = false;
+    $("certBtn").hidden = false;
+    lastPlaced = placed;
     saveMe(placed);
     submit(placed);
     playAdamFx(teachers[placed[0]]);
