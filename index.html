@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>True Adam of Techlyceum</title>
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="style.css?v=13">
 </head>
 <body>
 
 
-    <!-- SVG-фильтры для эффекта "скомканной" бумаги (не удалять) -->
+    <!-- svg фильтры для эффекта скомканной бумаги не удалять -->
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
         <filter id="crumple-soft">
             <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4" result="noise"/>
@@ -23,7 +23,7 @@
 
     <div class="desk">
 
-        <!-- Главный листок -->
+        <!-- главный листок -->
         <main class="sheet">
             <button class="sticker" id="sticker" type="button" aria-label="MOG!">MOG!</button>
             <h1>True Adam of Techlyceum</h1>
@@ -70,7 +70,7 @@
             <p class="description"></p>
             </div>
 
-            <!-- ===== Статистика ===== -->
+            <!-- статистика -->
             <div class="view" id="view-stats" hidden>
                 <section class="board">
                     <h3 data-i18n="navStats">Статистика</h3>
@@ -81,7 +81,7 @@
                 </section>
             </div>
 
-            <!-- ===== Настройки ===== -->
+            <!-- настройки -->
             <div class="view" id="view-settings" hidden>
                 <section class="board">
                     <h3 data-i18n="navSettings">Настройки</h3>
@@ -92,29 +92,29 @@
                         <button class="play small lang-btn" type="button" data-lang="uk">Українська</button>
                     </div>
                     <p class="hint" data-i18n="langNote">Имена и должности учителей не переводятся.</p>
-                    <!-- Сюда можно добавлять другие настройки -->
+                    <!-- сюда можно добавлять другие настройки -->
                     <div class="btn-row"><button class="play small" type="button" data-view="home" data-i18n="home">На главную</button></div>
                 </section>
             </div>
 
-            <!-- ===== Об авторе ===== -->
+            <!-- об авторе -->
             <div class="view" id="view-about" hidden>
                 <section class="board">
                     <h3 data-i18n="navAbout">Об авторе</h3>
 
-                    <!-- ============ ПИШИ ТЕКСТ ОБ АВТОРЕ ЗДЕСЬ (замени содержимое блока ниже) ============ -->
+                    <!-- пиши текст об авторе здесь замени содержимое блока ниже -->
                     <div class="about" id="aboutContent">
                         <p data-i18n="aboutP1">Автор: Диктатор, самый умнейший. Возражения не принимаются.</p>
                         <p data-i18n="aboutP2">Сам сайт сделан для практики самого автора, без злого умысла.</p>
                     </div>
-                    <!-- ================================================================================= -->
+                    <!-- конец блока об авторе -->
 
                     <div class="btn-row"><button class="play small" type="button" data-view="home" data-i18n="home">На главную</button></div>
                 </section>
             </div>
         </main>
 
-        <!-- Кнопки-листочки вне главного листа -->
+        <!-- кнопки листочки вне главного листа -->
         <nav class="tabs">
             <button class="note" type="button" data-view="stats" data-i18n="navStats" style="--tilt: -3deg">Статистика</button>
             <button class="note" type="button" data-view="settings" data-i18n="navSettings" style="--tilt: 2deg">Настройки</button>
@@ -123,7 +123,7 @@
 
     </div>
 
-    <!-- Грамота (картинка с топом) -->
+    <!-- грамота картинка с топом -->
     <div class="cert-modal" id="certModal" hidden>
         <div class="cert-box">
             <p id="certMsg" class="hint"></p>
@@ -137,7 +137,7 @@
         </div>
     </div>
 
-    <!-- Эффект появления True Adam -->
+    <!-- эффект появления true adam -->
     <div class="adam-fx" id="adamFx" hidden>
         <div class="adam-stage" id="adamStage">
             <div class="adam-words" id="adamWords"></div>
@@ -145,8 +145,8 @@
         </div>
     </div>
 
-    <script src="i18n.js?v=10"></script>
-    <script src="game.js?v=10"></script>
-    <script src="app.js?v=10"></script>
+    <script src="i18n.js?v=13"></script>
+    <script src="game.js?v=13"></script>
+    <script src="app.js?v=13"></script>
 </body>
 </html>

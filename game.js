@@ -1,11 +1,10 @@
-// ====== ОБЩИЙ РЕЙТИНГ (Google Таблица) ======
-// Вставь сюда ссылку на веб-приложение Apps Script (заканчивается на /exec).
-// Пока пусто — игра работает, но рейтинг выключен.
+// общий рейтинг через google таблицу
+// вставь сюда ссылку на веб-приложение apps script заканчивается на /exec
+// пока пусто и игра работает а рейтинг выключен
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbwmbeRihb9_9C7aP--4AIeWB7rL6JQKA9cLNewg5uggtuEvaGmGDXfcPk_58THb2w31Vg/exec";
-// ============================================
 
-// ====== УЧИТЕЛЯ ======
-// [файл из папки img, ФИО, должность]
+
+// учителя: файл из папки img, фио, должность
 const DATA = [
     ["ilyushina.jpg", "Ілюшина Олена Олександрівна", "Директор ліцею"],
     ["Leshhenko-Nataliya-Sergiyivna-vchitel-biologiyi2.jpg", "Лещенко Наталія Сергіївна", "Заступник директора з навчально-виховної роботи"],
@@ -37,8 +36,8 @@ const DATA = [
     ["SHugayevska-Lyudmila-Volodimirivna-vchitel-informatiki2.jpg", "Шугаєвська Людмила Володимирівна", "Вчитель інформатики"],
     ["2FIZRA.jpg", "Щерецька Галина Леонідівна", ""],
 ];
-const TIERS = ["True Adam", "chad", "htn", "mtn", "ltn", "sub 5"]; // остальные — sub 3
-// ========================
+const TIERS = ["True Adam", "chad", "htn", "mtn", "ltn", "sub 5"]; // остальные это sub 3
+
 
 const $ = (id) => document.getElementById(id);
 const teachers = DATA.map(([file, name, role], i) => ({
@@ -46,14 +45,14 @@ const teachers = DATA.map(([file, name, role], i) => ({
     src: "img/" + file,
     name,
     role,
-    short: name.split(" ").slice(0, 2).join(" "), // Прізвище Ім'я
+    short: name.split(" ").slice(0, 2).join(" "), // прізвище і ім'я
 }));
 
 let wins, count, resolver, duelLog;
 
 const statsOn = () => !!SHEET_URL;
 
-// Отправляем результат игры: топ-6 и все сделанные выборы в дуэлях
+// отправляем результат игры топ 6 и все сделанные выборы в дуэлях
 async function submit(placed) {
     if (!statsOn()) return;
     try {
@@ -68,12 +67,12 @@ async function submit(placed) {
     }
 }
 
-const POINTS = ["adam", "chad", "htn", "mtn", "ltn", "sub5"]; // 6,5,4,3,2,1 очков
+const POINTS = ["adam", "chad", "htn", "mtn", "ltn", "sub5"]; // 6 5 4 3 2 1 очков
 
 let boardData = null, boardMsg = "";
 let stageK = null, countN = 0, resultsShown = false, lastPlaced = null;
 
-// Тексты, которые меняются при смене языка
+// тексты которые меняются при смене языка
 function renderGameText() {
     $("stage").textContent = stageK === null ? "" : stageK === -1 ? t("results") : t("whoIs", TIERS[stageK]);
     $("count").textContent = countN ? t("choice", countN) : "";
@@ -133,7 +132,7 @@ const shuffle = (a) => {
     return a;
 };
 
-// Уже известен результат (напрямую или через цепочку побед)?
+// уже известен результат напрямую или через цепочку побед
 function reach(from, to) {
     const seen = new Set([from]);
     const stack = [from];
@@ -171,7 +170,7 @@ function fill(el, t) {
 
 let runId = 0;
 const cancelRun = () => { runId++; resolver = null; };
-const MOG_DELAY = 850; // сколько держим штамп MOGGED перед следующим выбором (мс)
+const MOG_DELAY = 850; // сколько держим штамп mogged перед следующим выбором в мс
 
 function ask(a, b) {
     return new Promise((resolve) => {
@@ -187,8 +186,8 @@ function ask(a, b) {
             resolver = null; // защита от двойного клика
             const [win, lose] = side > 0 ? [cA, cB] : [cB, cA];
             win.classList.add("won");
-            lose.classList.add("mogged"); // проигравший "могнут"
-            setTimeout(() => { if (id === runId) resolve(flip ? -side : side); }, MOG_DELAY); // 1 = победил a
+            lose.classList.add("mogged"); // проигравший могнут
+            setTimeout(() => { if (id === runId) resolve(flip ? -side : side); }, MOG_DELAY); // 1 значит победил a
         };
     });
 }
@@ -234,7 +233,7 @@ async function play() {
     for (let k = 0; k < TIERS.length; k++) {
         stageK = k;
         renderGameText();
-        // k-е место мог занять только тот, кто проиграл кому-то из уже выбранных
+        // это место мог занять только тот кто проиграл кому то из уже выбранных
         const pool = k === 0
             ? teachers.map((t) => t.id)
             : teachers.map((t) => t.id).filter((c) => !placed.includes(c) && placed.some((p) => wins[p].has(c)));

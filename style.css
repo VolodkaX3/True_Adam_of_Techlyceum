@@ -1,15 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap");
 
 :root {
-    --ink: #111111;          /* чернила / рамки / тени */
-    --desk: #fff8ec;         /* стол (фон с точками) */
+    --ink: #111111;          /* чернила рамки тени */
+    --desk: #fff8ec;         /* стол фон с точками */
     --paper: #fffdf6;        /* бумага */
-    --accent: #ff3b3b;       /* главный акцент: красный (h1, метки) */
-    --accent-2: #ffb84d;     /* второй акцент: тёплый оранжевый (h2, ссылки, кнопки) */
-    --alert: #d90429;        /* дисклеймер: тёмно-красный */
+    --accent: #ff3b3b;       /* главный акцент красный h1 и метки */
+    --accent-2: #ffb84d;     /* второй акцент тёплый оранжевый h2 ссылки кнопки */
+    --alert: #d90429;        /* дисклеймер тёмно красный */
     --alert-soft: #ffe0e0;
     --alert-line: #ff8a8a;   /* красное поле на листочках */
-    --line: #ffd9c7;         /* линейки на листочках: персиковые */
+    --line: #ffd9c7;         /* линейки на листочках персиковые */
     --border: 3px solid var(--ink);
 }
 
@@ -17,7 +17,7 @@
     box-sizing: border-box;
 }
 
-/* Фон-подстилка: точки только на "столе" */
+/* фон подстилка точки только на столе */
 html {
     background-color: var(--desk);
     background-image: radial-gradient(var(--ink) 1px, transparent 1px);
@@ -33,7 +33,7 @@ body {
     line-height: 1.7;
 }
 
-/* Стол: главный лист + кнопки сбоку */
+/* стол главный лист и кнопки сбоку */
 .desk {
     display: flex;
     align-items: flex-start;
@@ -43,7 +43,7 @@ body {
     margin: 0 auto;
 }
 
-/* Главный листок бумаги */
+/* главный листок бумаги */
 .sheet {
     flex: 1;
     max-width: 820px;
@@ -88,7 +88,7 @@ h2 {
     font-size: 1.05rem;
 }
 
-/* Предупреждение как наклеенная записка */
+/* предупреждение как наклеенная записка */
 .disclaimer {
     position: relative;
     margin: 32px 0 24px;
@@ -129,7 +129,7 @@ a:hover {
     background-size: 100% 100%;
 }
 
-/* ---------- Кнопки-листочки ---------- */
+/* кнопки листочки */
 
 .tabs {
     display: flex;
@@ -154,7 +154,7 @@ a:hover {
     color: var(--ink);
     cursor: pointer;
     background-color: var(--paper);
-    /* цветное поле слева + линейки тетрадного листа */
+    /* цветное поле слева и линейки тетрадного листа */
     background-image:
         linear-gradient(90deg, transparent 34px, var(--alert-line) 34px, var(--alert-line) 36px, transparent 36px),
         repeating-linear-gradient(transparent 0 21px, var(--line) 21px 22px);
@@ -166,7 +166,7 @@ a:hover {
         box-shadow 0.25s ease;
 }
 
-/* Складки, которые проявляются при сминании */
+/* складки которые проявляются при сминании */
 .note::after {
     content: "";
     position: absolute;
@@ -181,7 +181,7 @@ a:hover {
         linear-gradient(20deg, transparent 40%, rgba(0, 0, 0, 0.12) 41%, transparent 45%);
 }
 
-/* Наведение / фокус — бумага мнётся */
+/* наведение или фокус бумага мнётся */
 .note:hover,
 .note:focus-visible {
     outline: none;
@@ -195,14 +195,14 @@ a:hover {
     opacity: 1;
 }
 
-/* Нажатие — скомкана в шарик */
+/* нажатие скомкана в шарик */
 .note:active {
     filter: url(#crumple-hard);
     transform: rotate(calc(var(--tilt) * 3)) scale(0.72);
     box-shadow: 1px 1px 0 var(--ink);
 }
 
-/* Мобильная версия: кнопки под листом */
+/* мобильная версия кнопки под листом */
 @media (max-width: 900px) {
     .desk {
         flex-direction: column;
@@ -243,7 +243,7 @@ a:hover {
     }
 }
 
-/* ---------- Игра ---------- */
+/* игра */
 
 .game-banner {
     position: relative;
@@ -466,7 +466,7 @@ a:hover {
     }
 }
 
-/* Подписи учителей и кадрирование фото */
+/* подписи учителей и кадрирование фото */
 .card b,
 .card small {
     display: block;
@@ -484,7 +484,7 @@ a:hover {
     object-position: center top;
 }
 
-/* ---------- Общий рейтинг ---------- */
+/* общий рейтинг */
 
 .btn-row {
     display: flex;
@@ -553,7 +553,7 @@ a:hover {
 }
 
 
-/* ---------- Разделы: статистика, настройки, об авторе ---------- */
+/* разделы статистика настройки об авторе */
 
 .note.active {
     background-color: var(--accent-2);
@@ -660,12 +660,12 @@ a:hover {
 }
 
 
-/* hidden должен всегда скрывать элемент (иначе display:grid/flex его "оживляет") */
+/* hidden должен всегда скрывать элемент иначе display grid или flex его оживляет */
 [hidden] {
     display: none !important;
 }
 
-/* ---------- MOGGED: проигравший в дуэли ---------- */
+/* mogged проигравший в дуэли */
 
 .card {
     position: relative;
@@ -717,7 +717,7 @@ a:hover {
     100% { transform: translate(-50%, -50%) rotate(-12deg) scale(1); }
 }
 
-/* ---------- Появление True Adam ---------- */
+/* появление true adam */
 
 .adam-fx {
     position: fixed;
@@ -821,7 +821,7 @@ a:hover {
     opacity: 0.8;
 }
 
-/* Упрощённый режим анимаций (Настройки) */
+/* упрощённый режим анимаций настройки */
 [data-fx="calm"] .card.mogged::after,
 [data-fx="calm"] .adam-words span,
 [data-fx="calm"] .adam-reveal {
@@ -833,9 +833,9 @@ a:hover {
 }
 
 
-/* ================= Больше характера ================= */
+/* больше характера */
 
-/* Точки на столе медленно дрейфуют */
+/* точки на столе медленно дрейфуют */
 html {
     animation: drift 40s linear infinite;
 }
@@ -844,7 +844,7 @@ html {
     to { background-position: 22px 22px; }
 }
 
-/* Лист: скотч и наклейка */
+/* лист скотч и наклейка */
 .sheet {
     position: relative;
 }
@@ -890,7 +890,7 @@ html {
     50% { rotate: 4deg; scale: 1.08; }
 }
 
-/* Заголовок: редкий "удар" */
+/* заголовок редкий удар */
 h1 {
     animation: punch 6s 1.5s infinite;
 }
@@ -901,7 +901,7 @@ h1 {
     96% { scale: 0.99; }
 }
 
-/* Появление блоков при загрузке и при смене раздела */
+/* появление блоков при загрузке и при смене раздела */
 .sheet > h2,
 .sheet > .disclaimer,
 .sheet > .view {
@@ -915,7 +915,7 @@ h1 {
     from { opacity: 0; translate: 0 16px; scale: 0.97; }
 }
 
-/* Баннер игры: наклейка NEW, подпрыгивание, кнопка "зовёт" */
+/* баннер игры наклейка new подпрыгивание кнопка зовёт */
 .game-banner {
     transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -953,14 +953,14 @@ h1 {
     94% { rotate: 1deg; }
 }
 
-/* Заголовки блоков: как выделено маркером */
+/* заголовки блоков как выделено маркером */
 .game-banner h3,
 .board h3 {
     display: inline-block;
     background: linear-gradient(transparent 60%, var(--accent-2) 60%);
 }
 
-/* Карточки статистики слегка вразнобой */
+/* карточки статистики слегка вразнобой */
 .stats-grid .stat:nth-child(odd) { rotate: -0.8deg; }
 .stats-grid .stat:nth-child(even) { rotate: 0.8deg; }
 
@@ -979,7 +979,7 @@ h1 {
     }
 }
 
-/* Упрощённый режим: все украшательские анимации выключены */
+/* упрощённый режим все украшательские анимации выключены */
 html[data-fx="calm"],
 html[data-fx="calm"] *,
 html[data-fx="calm"] *::before,
@@ -988,7 +988,7 @@ html[data-fx="calm"] *::after {
 }
 
 
-/* Конфетти и вылетающие слова */
+/* конфетти и вылетающие слова */
 .confetti {
     position: fixed;
     z-index: 1100;
@@ -1009,7 +1009,7 @@ html[data-fx="calm"] *::after {
 }
 
 
-/* Раздел "Об авторе" */
+/* раздел об авторе */
 .about-role {
     display: inline-block;
     margin: 8px 0 12px;
@@ -1024,7 +1024,7 @@ html[data-fx="calm"] *::after {
 }
 
 
-/* ---------- Грамота ---------- */
+/* грамота */
 
 #certBtn {
     background-color: var(--accent-2);
@@ -1062,7 +1062,7 @@ html[data-fx="calm"] *::after {
     display: none;
 }
 
-/* ---------- Стикер, который "вылезает" ---------- */
+/* стикер который вылезает */
 
 .pop-sticker {
     position: fixed;

@@ -1,4 +1,4 @@
-// Посетитель, переключение разделов, статистика, настройки, язык.
+// посетитель переключение разделов статистика настройки язык
 const store = {
     get(k) { try { return localStorage.getItem(k); } catch (_) { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (_) {} },
@@ -10,7 +10,7 @@ const el = (tag, cls, text) => {
     return e;
 };
 
-// ---------- анонимный id посетителя (для подсчёта онлайна и уникальных) ----------
+// анонимный id посетителя для подсчёта онлайна и уникальных
 const VID = store.get("vid") || (() => {
     const v = crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now();
     store.set("vid", v);
@@ -32,7 +32,7 @@ try {
 track("ping");
 setInterval(() => { if (!document.hidden) track("ping"); }, 30000);
 
-// ---------- личная статистика (только в этом браузере) ----------
+// личная статистика только в этом браузере
 function saveMe(placed) {
     let me;
     try { me = JSON.parse(store.get("me") || "{}"); } catch (_) { me = {}; }
@@ -43,7 +43,7 @@ function saveMe(placed) {
     store.set("me", JSON.stringify(me));
 }
 
-// ---------- разделы ----------
+// разделы
 const VIEWS = ["home", "stats", "settings", "about"];
 let statsTimer = null;
 
@@ -58,7 +58,7 @@ document.querySelectorAll("[data-view]").forEach((b) => {
     b.onclick = () => showView(b.classList.contains("active") ? "home" : b.dataset.view);
 });
 
-// ---------- статистика ----------
+// статистика
 let statsData = null, statsMsg = "";
 
 async function loadStats() {
@@ -127,7 +127,7 @@ function renderStats() {
     }
 }
 
-// ---------- язык ----------
+// язык
 function applyLang() {
     document.documentElement.lang = lang;
     document.querySelectorAll("[data-i18n]").forEach((e) => (e.textContent = t(e.dataset.i18n)));
@@ -141,12 +141,12 @@ document.querySelectorAll(".lang-btn").forEach((b) => {
     b.onclick = () => { lang = b.dataset.lang; store.set("lang", lang); applyLang(); };
 });
 
-// ---------- эффект появления True Adam ----------
-const MOG_TEXT = "MOG"; // "кричащее" слово (можно заменить на "МОГ")
+// эффект появления true adam
+const MOG_TEXT = "MOG"; // кричащее слово можно заменить на мог
 let fxRun = 0;
 
 function playAdamFx(tr) {
-    const calm = fxMode === "calm"; // упрощённый режим: без вспышек и тряски
+    const calm = fxMode === "calm"; // упрощённый режим без вспышек и тряски
     const fx = $("adamFx"), stage = $("adamStage"), words = $("adamWords"), reveal = $("adamReveal");
     const id = ++fxRun;
     const timers = [];
@@ -189,7 +189,7 @@ function playAdamFx(tr) {
     later(close, 4500);
 }
 
-// ---------- конфетти и вылетающие MOG ----------
+// конфетти и вылетающие mog
 const rand = (a, b) => a + Math.random() * (b - a);
 
 function confetti(x, y, n = 36) {
@@ -231,7 +231,7 @@ function floatWord(x, y) {
     ).onfinish = () => w.remove();
 }
 
-// Конфетти при нажатии "Играть" (до того, как баннер спрячется)
+// конфетти при нажатии играть до того как баннер спрячется
 document.addEventListener("click", (e) => {
     const b = e.target.closest && e.target.closest("#playBtn");
     if (!b) return;
@@ -239,7 +239,7 @@ document.addEventListener("click", (e) => {
     confetti(r.left + r.width / 2, r.top + r.height / 2, 40);
 }, true);
 
-// ---------- стикер: 3 клика по кружку MOG! ----------
+// стикер: клики по кружку mog
 const loadImg = (src) => new Promise((res) => {
     const i = new Image();
     i.onload = () => res(i);
@@ -247,7 +247,7 @@ const loadImg = (src) => new Promise((res) => {
     i.src = src;
 });
 
-const STICKER_EXTS = ["png", "webp", "gif", "jpg", "jpeg"]; // расширение файла simg/Zozula_sticker.*
+const STICKER_EXTS = ["png", "webp", "gif", "jpg", "jpeg"]; // расширение файла simg/zozula_sticker
 let stickerPromise = null, stickerEl = null, stickerClicks = 0, stickerLast = 0;
 
 function stickerSrc() {
@@ -306,7 +306,7 @@ async function popSticker(fromX, fromY) {
     setTimeout(out, 3200);
 }
 
-// Наклейка MOG! на листе: жми сколько хочешь, на каждый 3-й клик вылезает стикер
+// наклейка mog на листе жми сколько хочешь на каждый 3 клик вылезает стикер
 $("sticker").onclick = (e) => {
     const r = e.currentTarget.getBoundingClientRect();
     const x = e.clientX || r.left + r.width / 2;
@@ -323,7 +323,7 @@ $("sticker").onclick = (e) => {
     }
 };
 
-// ---------- грамота (картинка с топом) ----------
+// грамота картинка с топом
 const AUTHOR = "@Volodka_X3";
 const SITE_URL = "volodkax3.github.io/True_Adam_of_Techlyceum";
 const CERT_FONT = '"Plus Jakarta Sans", Arial, sans-serif';
@@ -365,7 +365,7 @@ async function makeCert(placed) {
         if (img) {
             const r = Math.max(w / img.width, h / img.height);
             const sw = w / r, sh = h / r;
-            c.drawImage(img, (img.width - sw) / 2, 0, sw, sh, x, y, w, h); // обрезка сверху, как на сайте
+            c.drawImage(img, (img.width - sw) / 2, 0, sw, sh, x, y, w, h); // обрезка сверху как на сайте
         } else {
             c.fillStyle = "#ffffff"; c.fillRect(x, y, w, h);
             text(String(placed[i] + 1), x + w / 2, y + h / 2 + 20, 60, 800, "#ff3b3b");
@@ -373,7 +373,7 @@ async function makeCert(placed) {
         c.lineWidth = 5; c.strokeStyle = ink; c.strokeRect(x, y, w, h);
     };
 
-    // фон-стол в точку
+    // фон стол в точку
     c.fillStyle = "#fff8ec"; c.fillRect(0, 0, W, H);
     c.fillStyle = ink;
     for (let y = 11; y < H; y += 22) for (let x = 11; x < W; x += 22) c.fillRect(x, y, 2, 2);
@@ -391,7 +391,7 @@ async function makeCert(placed) {
     c.restore();
     text(t("certSub"), 530, 372, 30, 600, ink);
 
-    // True Adam
+    // true adam
     const a = teachers[placed[0]];
     photo(0, 100, 400, 270, 360);
     c.font = `800 34px ${F}`;
@@ -404,7 +404,7 @@ async function makeCert(placed) {
     c.font = `600 26px ${F}`;
     wrapText(c, a.role, 560).forEach((ln, i) => text(ln, 400, 535 + nameLines.length * 54 + 10 + i * 32, 26, 600, "#444444", "left"));
 
-    // места 2-6
+    // места 2 и до 6
     for (let i = 1; i < 6; i++) {
         const x = 100 + (i - 1) * 174;
         box(x, 792, 164, 42, "#ffb84d", 5, 4);
@@ -414,7 +414,7 @@ async function makeCert(placed) {
         wrapText(c, teachers[placed[i]].short, 164).slice(0, 2).forEach((ln, k) => text(ln, x + 82, 1088 + k * 26, 21, 800, ink));
     }
 
-    // низ: сайт и автор
+    // низ сайт и автор
     text(SITE_URL, 530, 1150, 22, 600, "#444444");
     c.fillStyle = ink; c.fillRect(100, 1168, 860, 72);
     const label = t("certAuthor") + " ";
@@ -468,10 +468,10 @@ $("certShare").onclick = async () => {
         const file = new File([blob], "true-adam-top.png", { type: "image/png" });
         if (navigator.canShare && navigator.canShare({ files: [file] })) await navigator.share({ files: [file], text });
         else await navigator.share({ text, url });
-    } catch (e) { /* окно "поделиться" закрыли */ }
+    } catch (e) { /* окно поделиться закрыли */ }
 };
 
-// ---------- режим анимаций ----------
+// режим анимаций
 let fxMode = store.get("fx") || (matchMedia("(prefers-reduced-motion: reduce)").matches ? "calm" : "full");
 function applyFx() {
     document.documentElement.dataset.fx = fxMode;
