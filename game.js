@@ -77,6 +77,11 @@ function renderGameText() {
     $("stage").textContent = stageK === null ? "" : stageK === -1 ? t("results") : t("whoIs", TIERS[stageK]);
     $("count").textContent = countN ? t("choice", countN) : "";
     $("exitBtn").textContent = resultsShown ? t("again") : t("exit");
+    // шкала прогресса: сколько мест уже определено из общего числа тиров
+    const pct = stageK === null ? 0 : stageK === -1 ? 100 : Math.round((100 * stageK) / TIERS.length);
+    $("progressFill").style.width = pct + "%";
+    $("progressNum").textContent = pct + "%";
+    $("progress").setAttribute("aria-valuenow", pct);
 }
 
 async function showBoard() {

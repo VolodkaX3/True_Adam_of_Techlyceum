@@ -1079,3 +1079,37 @@ html[data-fx="calm"] *::after {
 @keyframes sway {
     50% { rotate: 5deg; }
 }
+/* шкала прогресса турнира */
+
+.progress {
+    position: relative;
+    height: 26px;
+    margin: 0 0 20px;
+    background-color: var(--paper);
+    background-image: repeating-linear-gradient(90deg, transparent 0 24px, rgba(17, 17, 17, 0.08) 24px 25px);
+    border: var(--border);
+    box-shadow: 4px 4px 0 var(--ink);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background-color: var(--accent);
+    background-image: repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 0 8px, transparent 8px 16px);
+    border-right: 3px solid var(--ink);
+    transition: width 0.45s cubic-bezier(0.3, 0.8, 0.3, 1);
+}
+
+.progress-num {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    text-shadow: 0 0 3px var(--paper), 0 0 3px var(--paper), 0 0 3px var(--paper);
+}
